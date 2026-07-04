@@ -88,16 +88,18 @@ test("admin can view and confirm a reservation", async ({ page }) => {
   const classSection = page.getByRole("region", {
     name: /class: Chinese Dance Foundation/
   });
-  await expect(classSection.getByRole("button", { name: /Chinese Dance Foundation/ })).toHaveAttribute("aria-expanded", "false");
-  await classSection.getByRole("button", { name: /Chinese Dance Foundation/ }).click();
+  const classToggle = classSection.getByRole("button", { name: /Expand Chinese Dance Foundation/ });
+  await expect(classToggle).toHaveAttribute("aria-expanded", "false");
+  await classToggle.click();
+  await expect(classSection.getByRole("button", { name: /Collapse Chinese Dance Foundation/ })).toHaveAttribute("aria-expanded", "true");
   await expect(classSection.getByText(studentName)).toBeVisible({ timeout: 15000 });
   const row = classSection.getByRole("row").filter({ hasText: studentName });
   await row.getByRole("combobox").selectOption("Confirmed");
   await expect(row.getByRole("combobox")).toHaveValue("Confirmed");
 
-  await classSection.getByRole("button", { name: /Chinese Dance Foundation/ }).click();
+  await classSection.getByRole("button", { name: /Collapse Chinese Dance Foundation/ }).click();
   await expect(row).toBeHidden();
-  await classSection.getByRole("button", { name: /Chinese Dance Foundation/ }).click();
+  await classSection.getByRole("button", { name: /Expand Chinese Dance Foundation/ }).click();
   await expect(row).toBeVisible();
 });
 
@@ -133,7 +135,7 @@ test("event reserve flow records ticket interest for admin", async ({ page }) =>
     name: /event: Annual Gala at Place des Arts/
   });
   await expect(eventSection).toContainText("Event");
-  await eventSection.getByRole("button", { name: /Annual Gala at Place des Arts/ }).click();
+  await eventSection.getByRole("button", { name: /Expand Annual Gala at Place des Arts/ }).click();
   const row = eventSection.getByRole("row").filter({ hasText: studentName });
   await expect(row).toContainText("ticket-links-shown");
 
@@ -177,7 +179,7 @@ test("private coaching schedule opens one-hour Wednesday sessions", async ({ pag
   const privateSection = page.getByRole("region", {
     name: /class: Private Coaching/
   });
-  await privateSection.getByRole("button", { name: /Private Coaching/ }).click();
+  await privateSection.getByRole("button", { name: /Expand Private Coaching/ }).click();
   const row = privateSection.getByRole("row").filter({ hasText: studentName });
   await expect(row).toContainText(`Preferred: ${preferredSchedule}`);
 });
@@ -216,7 +218,7 @@ test("summer camp books by July or August week", async ({ page }) => {
   const campSection = page.getByRole("region", {
     name: /class: Summer Dance Camp/
   });
-  await campSection.getByRole("button", { name: /Summer Dance Camp/ }).click();
+  await campSection.getByRole("button", { name: /Expand Summer Dance Camp/ }).click();
   const row = campSection.getByRole("row").filter({ hasText: studentName });
   await expect(row).toContainText(`Preferred: ${preferredSchedule}`);
 });

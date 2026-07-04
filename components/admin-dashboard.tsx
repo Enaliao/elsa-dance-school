@@ -168,6 +168,7 @@ export function AdminDashboard({
       group.kind === "event" ? "No ticket requests for this event yet." : "No reservations for this class yet.";
     const key = groupKey(group);
     const collapsed = collapsedGroups[key] ?? true;
+    const toggleLabel = `${collapsed ? "Expand" : "Collapse"} ${group.label}`;
 
     return (
       <section
@@ -181,6 +182,7 @@ export function AdminDashboard({
             onClick={() => toggleGroup(group)}
             aria-expanded={!collapsed}
             aria-controls={`${key}-table`}
+            aria-label={toggleLabel}
             className="focus-ring flex min-w-0 items-start gap-2 rounded-md py-1 pr-2 text-left"
           >
             <span className="mt-7 text-black/55" aria-hidden="true">
