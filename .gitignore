@@ -5,4 +5,6 @@ playwright-report
 test-results
 .env
 data/inquiries.json
-.next-dev.*.log
+.next-dev
+.next-e2e
+
